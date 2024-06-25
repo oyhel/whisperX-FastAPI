@@ -110,6 +110,7 @@ class WhisperModel(str, Enum):
     medium = "medium"
     medium_en = "medium.en"
     large = "large"
+    nb_large = "NbAiLab/nb-whisper-large"
     large_v1 = "large-v1"
     large_v2 = "large-v2"
     large_v3 = "large-v3"
@@ -139,16 +140,12 @@ class ASROptions(BaseModel):
         )
     )
     patience: float = Field(
-        Query(
-            1.0, description="Optional patience value to use in beam decoding"
-        )
+        Query(1.0, description="Optional patience value to use in beam decoding")
     )
     length_penalty: float = Field(
         Query(1.0, description="Optional token length penalty coefficient")
     )
-    temperatures: float = Field(
-        Query(0.0, description="Temperature to use for sampling")
-    )
+    temperatures: float = Field(Query(0.0, description="Temperature to use for sampling"))
     compression_ratio_threshold: float = Field(
         Query(
             2.4,
@@ -243,20 +240,14 @@ class WhsiperModelParams(BaseModel):
             description="Number of threads used by torch for CPU inference; supercedes MKL_NUM_THREADS/OMP_NUM_THREADS",
         )
     )
-    batch_size: int = Field(
-        Query(8, description="The preferred batch size for inference")
-    )
-    compute_type: ComputeType = Field(
-        Query("float16", description="Type of computation")
-    )
+    batch_size: int = Field(Query(8, description="The preferred batch size for inference"))
+    compute_type: ComputeType = Field(Query("float16", description="Type of computation"))
 
 
 class AlignmentParams(BaseModel):
 
     align_model: Optional[str] = Field(
-        Query(
-            None, description="Name of phoneme-level ASR model to do alignment"
-        )
+        Query(None, description="Name of phoneme-level ASR model to do alignment")
     )
     interpolate_method: InterpolateMethod = Field(
         Query(
@@ -282,9 +273,7 @@ class DiarizationParams(BaseModel):
 
 
 class SpeechToTextProcessingParams(BaseModel):
-    audio: (
-        np.ndarray
-    )  # NumPy array containing the audio waveform, float32 dtype
+    audio: np.ndarray  # NumPy array containing the audio waveform, float32 dtype
     identifier: str
     vad_options: VADOptions
     asr_options: ASROptions

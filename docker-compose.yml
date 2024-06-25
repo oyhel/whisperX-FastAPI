@@ -17,11 +17,11 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:8000"            
+      - "8000:8000"
     volumes:
-      - whisperx-models-cache:/root/.cache
+      - /Users/oyvind/projects/whisperX-FastAPI/modelcache:/root/.cache
       - whisperx-app-volume:/app
 
 volumes:
-  whisperx-models-cache: 
+  whisperx-models-cache:
   whisperx-app-volume:

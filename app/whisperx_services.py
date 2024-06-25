@@ -36,7 +36,7 @@ def transcribe_with_whisper(
     model: str = WHISPER_MODEL,
     device: str = device,
     device_index: int = 0,
-    compute_type: str = "float16",
+    compute_type: str = "float32",
     threads: int = 0,
 ):
     """
@@ -58,8 +58,9 @@ def transcribe_with_whisper(
         torch.set_num_threads(threads)
         faster_whisper_threads = threads
 
+    nbmodel = "NbAiLab/nb-whisper-large"
     model = load_model(
-        model,
+        nbmodel,
         device,
         device_index=device_index,
         compute_type=compute_type,
@@ -69,9 +70,8 @@ def transcribe_with_whisper(
         task=task,
         threads=faster_whisper_threads,
     )
-    result = model.transcribe(
-        audio=audio, batch_size=batch_size, language=language
-    )
+    print(str(model))
+    result = model.transcribe(audio=audio, batch_size=batch_size, language=language)
 
     # delete model
     gc.collect()
@@ -92,9 +92,7 @@ def diarize(audio, device, min_speakers=None, max_speakers=None):
        Diarizartion: The diarization result.
     """
     model = DiarizationPipeline(use_auth_token=HF_TOKEN, device=device)
-    result = model(
-        audio=audio, min_speakers=min_speakers, max_speakers=max_speakers
-    )
+    result = model(audio=audio, min_speakers=min_speakers, max_speakers=max_speakers)
 
     # delete model
     gc.collect()

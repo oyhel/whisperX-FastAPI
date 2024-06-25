@@ -1623,6 +1623,7 @@ components:
       - medium
       - medium.en
       - large
+      - NbAiLab/nb-whisper-large
       - large-v1
       - large-v2
       - large-v3
